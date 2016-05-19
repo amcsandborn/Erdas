@@ -1,0 +1,47 @@
+COMMENT "Generated from graphical model: n:/users/avery/nd08_change/crop_center/pixel_mean_location_corn.gmd";
+#
+# set cell size for the model
+#
+SET CELLSIZE MIN;
+#
+# set window for the model
+#
+SET WINDOW INTERSECTION;
+#
+# set area of interest for the model
+#
+SET AOI NONE;
+#
+# declarations
+#
+Integer RASTER n1_cdl14_30m_nd_corn_mask_thematic_RC_Org FILE OLD PUBINPUT NEAREST NEIGHBOR AOI NONE "n:/users/avery/nd08_change/crop_masks/cdl14_30m_nd_corn_mask_thematic.img";
+Float RASTER n3_cdl14_30m_nd_corn_mapx FILE NEW PUBOUT IGNORE 0 ATHEMATIC FLOAT SINGLE "n:/users/avery/nd08_change/crop_center/cdl14_30m_nd_corn_mapx.img";
+Float RASTER n4_cdl14_30m_nd_corn_mapy FILE NEW PUBOUT IGNORE 0 ATHEMATIC FLOAT SINGLE "n:/users/avery/nd08_change/crop_center/cdl14_30m_nd_corn_mapy.img";
+Float RASTER n8_cdl14_30m_nd_corn_globalmeanx FILE NEW PUBOUT IGNORE 0 ATHEMATIC FLOAT SINGLE "n:/users/avery/nd08_change/crop_center/cdl14_30m_nd_corn_globalmeanx.img";
+Float RASTER n9_cdl14_30m_nd_corn_globalmeany FILE NEW PUBOUT IGNORE 0 ATHEMATIC FLOAT SINGLE "n:/users/avery/nd08_change/crop_center/cdl14_30m_nd_corn_globalmeany.img";
+FLOAT TABLE n12_Output;
+FLOAT TABLE n13_Output;
+#
+# addition variables to recode n1_cdl14_30m_nd_corn_mask_thematic_RC
+#
+INTEGER TABLE n1_recode;
+#
+# load recode table for n1_cdl14_30m_nd_corn_mask_thematic_RC
+#
+n1_recode = TABLE(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+#
+# recode n1_cdl14_30m_nd_corn_mask_thematic_RC_Org
+#
+#define n1_cdl14_30m_nd_corn_mask_thematic_RC LOOKUP($n1_cdl14_30m_nd_corn_mask_thematic_RC_Org, $n1_recode)
+#
+# function definitions
+#
+n4_cdl14_30m_nd_corn_mapy = MAPY ;
+n9_cdl14_30m_nd_corn_globalmeany = EITHER $n4_cdl14_30m_nd_corn_mapy IF ( $n1_cdl14_30m_nd_corn_mask_thematic_RC== 1 ) OR 0 OTHERWISE ;
+n13_Output = GLOBAL MEAN ( $n9_cdl14_30m_nd_corn_globalmeany ) ;
+WRITE $n13_Output TO "n:/users/avery/nd08_change/crop_center/cdl14_30m_nd_soybean_y.tbl";
+n3_cdl14_30m_nd_corn_mapx = MAPX ;
+n8_cdl14_30m_nd_corn_globalmeanx = EITHER $n3_cdl14_30m_nd_corn_mapx IF ( $n1_cdl14_30m_nd_corn_mask_thematic_RC == 1 ) OR 0 OTHERWISE ;
+n12_Output = GLOBAL MEAN ( $n8_cdl14_30m_nd_corn_globalmeanx ) ;
+WRITE $n12_Output TO "n:/users/avery/nd08_change/crop_center/cdl14_30m_nd_soybean_x.tbl";
+QUIT;
